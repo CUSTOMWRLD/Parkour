@@ -10,12 +10,13 @@ import org.bson.Document;
 import org.bukkit.Location;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 @Getter @Setter
 public class ParkourMap {
 
     @Getter private static final MongoCollection<Document> collection = CommonLib.getCommonLib().getMongoDatabase().getCollection("parkour");
-    @Getter private static final Set<ParkourMap> maps = new HashSet<>();
+    @Getter private static final Set<ParkourMap> maps = new CopyOnWriteArraySet<>(); //Best implementation, the set won't be written to often
 
     private final String name;
     private final Location spawn;
