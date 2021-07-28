@@ -55,6 +55,14 @@ public class DisplayCommand extends Command {
 
                             case SPRINT_START -> Color.AQUA;
                             case SPRINT_STOP -> Color.BLUE;
+
+                            case SNEAK_START -> Color.GRAY;
+                            case SNEAK_STOP -> Color.WHITE;
+
+                            case SWING -> Color.YELLOW;
+
+                            case SWIM_START -> Color.TEAL;
+                            case SWIM_STOP -> Color.NAVY;
                         }));
 
                         points.add(Pair.of(new Location(sender.getWorld(), step.getVx(), step.getVy(), step.getVz()).multiply(2.5).add(location),

@@ -62,7 +62,15 @@ public class Step implements Comparable<Step>{
         //LAND,
 
         SPRINT_START,
-        SPRINT_STOP
+        SPRINT_STOP,
+
+        SNEAK_START,
+        SNEAK_STOP,
+
+        SWING,
+
+        SWIM_START,
+        SWIM_STOP
     }
 
 }

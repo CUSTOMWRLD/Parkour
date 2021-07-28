@@ -113,13 +113,13 @@
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.destroystokyo.paper</groupId>-->
-<!--            <artifactId>paper-nms</artifactId>-->
-<!--            <version>1.16.5</version>-->
-<!--            <scope>system</scope>-->
-<!--            <systemPath>${pom.basedir}/libraries/NMS.jar</systemPath>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-nms</artifactId>
+            <version>1.16.5</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/libraries/NMS.jar</systemPath>
+        </dependency>
         <dependency>
             <groupId>com.customwrld</groupId>
             <artifactId>CommonLib</artifactId>

@@ -1,10 +1,11 @@
 package com.customwrld.parkour.replays;
 
 import com.customwrld.commonlib.util.MC;
-import com.customwrld.customlib.util.VectorUtil;
 import com.customwrld.parkour.Parkour;
+import com.customwrld.parkour.util.VectorUtil;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
+import net.minecraft.server.v1_16_R3.EnumHand;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -132,7 +133,34 @@ public class Replay {
         location.setYaw((float) (this.currentStep.getYaw() + ((this.nextStep.getYaw() - this.currentStep.getYaw()) * t)));
         location.setPitch((float) (this.currentStep.getPitch() + ((this.nextStep.getPitch() - this.currentStep.getPitch()) * t)));
 
-        this.ghost.getNpc().setLocation(location);
+        this.ghost.moveTo(location);
+
+        System.out.println(location.getYaw());
+        System.out.println(location.getPitch());
+        System.out.println(this.ghost.getNpc().entityNPC.yaw);
+        System.out.println(this.ghost.getNpc().entityNPC.pitch);
+
+        if (this.currentStep.getType() == Step.Type.SPRINT_START) {
+            this.ghost.setSprinting(true);
+        } else if (this.currentStep.getType() == Step.Type.SPRINT_STOP) {
+            this.ghost.setSprinting(false);
+        }
+
+        if (this.currentStep.getType() == Step.Type.SNEAK_START) {
+            this.ghost.setSneaking(true);
+        } else if (this.currentStep.getType() == Step.Type.SNEAK_STOP) {
+            this.ghost.setSneaking(false);
+        }
+
+        if (this.currentStep.getType() == Step.Type.SWING) {
+            this.ghost.swing();
+        }
+
+        if (this.currentStep.getType() == Step.Type.SWIM_START) {
+            this.ghost.setSwimming(true);
+        } else if (this.currentStep.getType() == Step.Type.SWIM_STOP) {
+            this.ghost.setSwimming(false);
+        }
 
         this.lastTickAt = time;
     }

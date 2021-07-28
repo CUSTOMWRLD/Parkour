@@ -1,6 +1,5 @@
 package com.customwrld.parkour.util;
 
-import com.customwrld.customlib.util.VectorUtil;
 import com.customwrld.parkour.Parkour;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;

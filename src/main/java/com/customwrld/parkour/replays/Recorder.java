@@ -80,4 +80,9 @@ public class Recorder {
         //activeRecorders.remove(this);
     }
 
+    public void destroy() {
+        this.player.removeMetadata(METADATA_KEY, Parkour.getParkour());
+        activeRecorders.remove(this);
+    }
+
 }
