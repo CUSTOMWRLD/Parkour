@@ -38,8 +38,8 @@ public class Step implements Comparable<Step>{
         this.vy = velocity.getY();
         this.vz = velocity.getZ();
 
-        this.yaw = location.getPitch();
-        this.pitch = location.getYaw();
+        this.yaw = location.getYaw();
+        this.pitch = location.getPitch();
     }
 
     @Override public boolean equals(Object o) {

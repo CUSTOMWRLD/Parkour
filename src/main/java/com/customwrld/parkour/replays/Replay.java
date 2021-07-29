@@ -5,7 +5,6 @@ import com.customwrld.parkour.Parkour;
 import com.customwrld.parkour.util.VectorUtil;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
-import net.minecraft.server.v1_16_R3.EnumHand;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -78,6 +77,8 @@ public class Replay {
 
         this.lastTickAt = System.currentTimeMillis();
         this.tickTask = Bukkit.getScheduler().runTaskTimerAsynchronously(Parkour.getParkour(), this::tick, 0, 1);
+
+        this.ghost.setSleeping(true);
     }
 
     public void pause() {
@@ -134,11 +135,6 @@ public class Replay {
         location.setPitch((float) (this.currentStep.getPitch() + ((this.nextStep.getPitch() - this.currentStep.getPitch()) * t)));
 
         this.ghost.moveTo(location);
-
-        System.out.println(location.getYaw());
-        System.out.println(location.getPitch());
-        System.out.println(this.ghost.getNpc().entityNPC.yaw);
-        System.out.println(this.ghost.getNpc().entityNPC.pitch);
 
         if (this.currentStep.getType() == Step.Type.SPRINT_START) {
             this.ghost.setSprinting(true);

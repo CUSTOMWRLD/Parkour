@@ -1,8 +1,13 @@
 package com.customwrld.parkour.listeners;
 
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -11,32 +16,33 @@ public class CancelledListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        event.setCancelled(true);
+        Player player = event.getPlayer();
+        if(!(player.getGameMode() == GameMode.CREATIVE && player.hasPermission("hub.blockbreak"))) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onBlockBurn(BlockBurnEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onBlockPhysics(BlockPhysicsEvent event) {
-        event.setCancelled(true);
+        Player player = event.getPlayer();
+        if(!(player.getGameMode() == GameMode.CREATIVE  && player.hasPermission("hub.blockplace"))) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-        event.setCancelled(true);
+        if (event.getEntity() instanceof Player) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
     public void onPlayerAttemptPickupItem(PlayerAttemptPickupItemEvent event) {
-        event.setCancelled(true);
+        Player player = event.getPlayer();
+        if (player.getGameMode() != GameMode.CREATIVE) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler

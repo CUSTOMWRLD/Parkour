@@ -44,7 +44,8 @@ public class Ghost {
                 String signature = textureProperty.get("signature").getAsString();
 
                 this.npc = new NPC(Collections.emptyMap(), location, texture, signature, new Hologram(LocationUtil.zero(location.getWorld()), false));
-                spawn(viewer);
+                //spawn(viewer);
+                Bukkit.getOnlinePlayers().forEach(this::spawn);
             } catch(IOException e) {
                 e.printStackTrace();
             }
@@ -56,10 +57,26 @@ public class Ghost {
     }
 
     public void moveTo(Location location) {
+        double lastX = this.npc.entityNPC.lastX;
+        double lastY = this.npc.entityNPC.lastY;
+        double lastZ = this.npc.entityNPC.lastZ;
+
+        float lastYaw = this.npc.entityNPC.getBukkitYaw();
+        float lastPitch = this.npc.entityNPC.lastPitch;
+
         this.npc.entityNPC.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
         this.npc.entityNPC.setHeadRotation(location.getYaw());
-        NMSUtil.sendPacket(viewer, new PacketPlayOutEntityTeleport(this.npc.entityNPC));
-        NMSUtil.sendPacket(viewer, new PacketPlayOutEntityHeadRotation(this.npc.entityNPC, (byte) location.getYaw()));
+        //NMSUtil.sendPacket(viewer, new PacketPlayOutEntityTeleport(this.npc.entityNPC));
+        NMSUtil.sendPacket(viewer,
+                new PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook(this.npc.entityId,
+                        (short) PacketPlayOutEntity.a(location.getX() - lastX),
+                        (short) PacketPlayOutEntity.a(location.getY() - lastY),
+                        (short) PacketPlayOutEntity.a(location.getZ() - lastZ),
+                        (byte) (location.getYaw() * 256F / 360F),
+                        (byte) (location.getPitch() * 256F / 360F),
+                        this.npc.entityNPC.isOnGround())
+        );
+        NMSUtil.sendPacket(viewer, new PacketPlayOutEntityHeadRotation(this.npc.entityNPC, (byte) (location.getYaw() * 256F / 360F)));
     }
 
     public void setSprinting(boolean sprinting) {
@@ -70,20 +87,28 @@ public class Ghost {
         NMSUtil.sendPacket(viewer, new PacketPlayOutAnimation(this.npc.entityNPC, 0));
     }
 
-    public void setSneaking(boolean sneaking) {
-        if (sneaking) {
-            this.sendPose(viewer, EntityPose.CROUCHING);
+    public void setSleeping(boolean sleeping) {
+        if (sleeping) {
+            this.sendPose(viewer, EntityPose.SLEEPING);
         } else {
             this.sendPose(viewer, EntityPose.STANDING);
         }
     }
 
+    public void setSneaking(boolean sneaking) {
+//        if (sneaking) {
+//            this.sendPose(viewer, EntityPose.CROUCHING);
+//        } else {
+//            this.sendPose(viewer, EntityPose.STANDING);
+//        }
+    }
+
     public void setSwimming(boolean swiming) {
-        if (swiming) {
-            this.sendPose(viewer, EntityPose.SWIMMING);
-        } else {
-            this.sendPose(viewer, EntityPose.STANDING);
-        }
+//        if (swiming) {
+//            this.sendPose(viewer, EntityPose.SWIMMING);
+//        } else {
+//            this.sendPose(viewer, EntityPose.STANDING);
+//        }
     }
 
     private void sendPose(Player player, EntityPose pose) {
